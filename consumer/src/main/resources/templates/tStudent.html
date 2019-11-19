@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>查看学生信息</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.4.1/css/bootstrap.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Trim-Fit Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+         Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"/>
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!--//meta tags ends here-->
+    <!--booststrap-->
+    <link href="../css/bootstrap.min1.css" rel="stylesheet" type="text/css" media="all">
+    <!--//booststrap end-->
+    <!-- font-awesome icons -->
+    <link href="../css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
+    <!-- //font-awesome icons -->
+    <!--stylesheets-->
+    <link href="../css/style1.css" rel='stylesheet' type='text/css' media="all">
+    <!--//stylesheets-->
+    <link href="//fonts.googleapis.com/css?family=Arimo:400,400i,700,700i" rel="stylesheet">
+
+    <link rel="stylesheet" href="../cssjs/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../cssjs/bootstrap-theme.min.css"/>
+    <script src="../cssjs/jquery.min.js"></script>
+    <script type="text/javascript" src="../cssjs/bootstrap.min.js"></script>
+
+
+    <script src="../js/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            /*批量勾选到场学员*/
+            $(document).on("click", ".sumbtn", function () {
+                $(":checkbox[name='Checkbox']").each(function () {
+                    if ($(this).prop("checked") == true) {
+                        //获取用户比编号
+                        var reid = $(this).parents("tr").children().eq(1).text();
+                        console.log(reid)
+                        //提交数据
+                        $.ajax({
+                            type: "post",
+                            url: "/" + reid,//新增
+                            data: {
+                                //这边的字段和Java的变量对应，不是跟数据库的字段对应
+                                "uid": uid
+                            },
+                            success: function (data) {
+                                //关闭弹出框
+                                alert("...")
+                                window.location.href = 'orderConfirm';
+                            }
+                        });
+                    }
+                })
+            });
+
+            //全选复选框
+            $(document).on("click", "#allCheck", function () {
+                //添加全选复选框
+                //用prop获取当前对象的checked属性,用cValue来接收
+                var cValue = $(this).prop("checked");
+                //属性选择器
+                $(":input[name='Checkbox']").prop("checked", cValue);
+            });
+
+            //单个复选框--->on表示动态,因为是动态添加,所以用动态
+            $(document).on("click", ":input[name='Checkbox']", function () {
+                //判断全选复选框的 选中状态
+                //调用外部的方法
+                checkAllCheckboxStatus();
+            });
+            //判断全选复选框的选中状态的方法
+            function checkAllCheckboxStatus() {
+                var checkAllFlag = true; //全选中
+                //each遍历
+                $(":input[name='Checkbox']").each(function () {
+                    //如果有一个没选中,就把checkAllFlag变成false
+                    if ($(this).prop("checked") == false) {
+                        checkAllFlag = false;
+                        return;
+                    }
+                });
+                //再操作checkAll的checked属性
+                if (checkAllFlag == true) {
+                    //checkAllFlag默认为ture,checked为false，若经历完以上遍历后checkAllFlag还为true,就把checked改为true
+                    $("#allCheck").prop("checked", true);
+                } else {
+                    $("#allCheck").prop("checked", false);
+                }
+            }
+        })
+    </script>
+</head>
+<body>
+<!--headder-->
+<div class="header-outs" id="home">
+    <div class="header-w3layouts">
+        <!--//navigation section -->
+        <div class="headr-title">
+            <div class="hedder-up">
+                <h1><a class="navbar-brand" href="index.html">教练个人中心</a></h1>
+            </div>
+            <div class="header-call">
+                <span class="fas fa-phone-volume brand-icon"></span>
+                <h4>欢迎回来！<span th:text="${session.trainer.tname}"></span></h4>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse  nav-fill " id="navbarSupportedContent">
+                <ul class="navbar-nav nav-pills nav-fill">
+                    <li class="nav-item">
+                        <a href="service.html" class="nav-link "></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="service.html" class="nav-link "></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="service.html" class="nav-link "></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="trainermain.html">首页<span class="sr-only">(current)</span></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="service.html" class="nav-link ">我的学员</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="gallery.html" class="nav-link">我的课程</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a th:href="|tData/${session.trainer.tid}|" class="nav-link">我的信息</a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+        <!--//navigation section -->
+    </div>
+</div>
+<!-- //Navigation-->
+<!--//headder-->
+<!-- banner -->
+<div class="inner_page-banner two-img">
+</div>
+<!--//banner -->
+<!-- short -->
+<div class="using-border py-3">
+    <div class="inner_breadcrumb  ml-4">
+        <ul class="short_ls">
+            <li>
+                <a th:href="trainermain.html">首页</a>
+                <span>/ /</span>
+            </li>
+            <li>查看学生信息</li>
+        </ul>
+    </div>
+</div>
+<!-- //short-->
+<!--contact -->
+<table id="dydetail" border="1px solid" class="table table-hover">
+    <tr>
+        <td colspan="7">对应课程的学生：</td>
+    </tr>
+    <tr>
+        <th>全选<input type="checkbox" id="allCheck"/></th>
+        <th>预约编号</th>
+        <th>用户编号</th>
+        <th>用户名</th>
+        <th>用户手机号</th>
+        <th>预约时间</th>
+    </tr>
+    <tr class="tr3" th:each="student:${list}">
+        <td><input type="checkbox" name="Checkbox"/></td>
+        <td th:text="${student.reid}"></td>
+        <td th:text="${student.uid}"></td>
+        <td th:text="${student.uname}"></td>
+        <td th:text="${student.uphone}"></td>
+        <td th:text="${student.rtime}"></td>
+        <!--用户姓名和用户电话-->
+    </tr>
+
+</table>
+<input type="submit" class="sumbtn" value="确认" >
+<!--//contact  -->
+<footer style="background-color: grey">
+    <p>©2018 Trim-Fit. All Rights Reserved | Design by <a href="http://www.W3Layouts.com" target="_blank">W3Layouts</a>
+    </p>
+</footer>
+<!-- //Footer -->
+<!--js working-->
+<script src='js/jquery-2.2.3.min.js'></script>
+<!--//js working-->
+<!-- start-smoth-scrolling -->
+<script src="js/move-top.js"></script>
+<script src="js/easing.js"></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $(".scroll").click(function (event) {
+            event.preventDefault();
+            $('html,body').animate({
+                scrollTop: $(this.hash).offset().top
+            }, 900);
+        });
+    });
+</script>
+<!-- start-smoth-scrolling -->
+<!-- here stars scrolling icon -->
+<script>
+    $(document).ready(function () {
+
+        var defaults = {
+            containerID: 'toTop', // fading element id
+            containerHoverID: 'toTopHover', // fading element hover id
+            scrollSpeed: 1200,
+            easingType: 'linear'
+        };
+
+
+        $().UItoTop({
+            easingType: 'easeOutQuart'
+        });
+
+    });
+</script>
+<!-- //here ends scrolling icon -->
+<!--bootstrap working-->
+<script src="js/bootstrap.min.js"></script>
+<!-- //bootstrap working-->
+</body>
+</html>

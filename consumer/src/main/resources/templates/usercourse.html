@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户查看课程</title>
+    <!--使用jquery框架-->
+    <script type="text/javascript" src="js/jquery.3.2.1.min.js"></script>
+    <!--JS实现AJAX部分-->
+    <script type="text/javascript">
+        $(function () {
+                $.ajax({
+                    url: "http://localhost:8070/course",    //请求的URL地址
+                    type: "get", //请求方法，GET、POST、PUT、DELETE在这里设置
+                    timeout: 5000,    //超时时间
+                    dataType: "json",    //返回的数据格式：json/xml/html/script/jsonp/text
+                    success : function (data) {
+                       for(var i = 0; i < data.length; i++){
+                            var course = data[i];
+                            var cid = course.cid;
+                            var cname = course.cname;
+                            $("#dycourse").append("<a href='onedetail?cname="+cname+"'>"+cname+"</a>&emsp;");
+                       }
+                    }
+                });
+        });
+    </script>
+</head>
+<body>
+<div id="dycourse"></div>
+</body>
+</html>

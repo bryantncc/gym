@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>修改密码</title>
+
+    <link href="assets/css/bootstrap-grid.css" rel="stylesheet">
+    <link href="assets/css/font-awesome.css" rel="stylesheet">
+    <link href="assets/css/zoomslider.css" rel="stylesheet">
+    <link href="assets/css/swiper.css" rel="stylesheet">
+    <link href="assets/css/swipebox.css" rel="stylesheet">
+    <link href="assets/css/style-pink.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/jquery-ui.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700%7CFira+Sans:400,500,600,700,800,900" rel="stylesheet">
+
+    <script type="text/javascript" src="assets/js/modernizr-2.6.2.min.js"></script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-fixed-top dark">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar top-bar"></span>
+                <span class="icon-bar middle-bar"></span>
+                <span class="icon-bar bottom-bar"></span>
+            </button>
+            <a class="logo" href="index.html"><img src="assets/images/logo-pink.png" alt="StarGym"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <!-- Use <div id="search" class="show"> for visible block -->
+            <div id="search">
+                <form>
+                    <div class="input-div"><input type="text" name="search" value="" placeholder="Search"></div>
+                    <a href="#" class="search-icon fa fa-search"></a>
+                </form>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="gallery.html">课程</a></li>
+                <li><a href="cards.html">Cards</a></li>
+                <li><a href="coaches.html">教练</a></li>
+                <li><a href="coach_full.html">Coach Full Page</a></li>
+                <li><a href="contact.html">联系</a></li>
+                <li>
+                    你好！<span th:text="${session.user.uname}"></span>
+                    <p>
+                        <span><a  href="edtpwd.html">修改密码</a></span>
+                        <span><a  href="userreserve">我的预约</a></span>
+                        <span><a  href="userlogin.html">退出</a></span>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <style type="text/css">
+        ul li{
+            cursor:pointer;
+        }
+        ul li p{
+            display:none;
+        }
+        ul li:hover p{
+            display:block;
+            background-color:darkslategray;
+        }
+        ul li p span{
+            display:block;
+            margin:5px 0;
+            cursor:default;
+        }
+    </style>
+</nav>
+
+<header>
+    <div class="container">
+        <h1>修改 <span>个人密码</span></h1>
+        <ol class="bread">
+            <li>
+                <a href="index.html"><span>首页</span></a>
+            </li>
+            <li class="divider"><span>|</span></li>
+            <li>
+                <span>修改密码</span>
+            </li>
+        </ol>
+    </div>
+</header>
+
+<section class="cards" style="margin-top: -40px">
+    <div class="container" style="margin-left: 120px">
+        <div class="row">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-ms-10">
+                <div class="item" style="background-color: #b1dfbb;">
+                    <form action="updatepwd" method="post" onsubmit="return fromVali()" style="margin-left: 360px;text-align: left">
+                        <label >用&nbsp;&nbsp;户&nbsp;&nbsp;名：</label>
+                        <input type="text" th:value="${session.user.uname}" readonly><br><br>
+                        <label>手&nbsp;&nbsp;机&nbsp;&nbsp;号：</label>
+                        <input type="text" th:value="${session.user.uphone}" readonly><br><br>
+                        <label>原&nbsp;&nbsp;密&nbsp;&nbsp;码：</label>
+                        <input type="password" name="oldpassword" placeholder="请输入原密码"><br><br>
+                        <label>新&nbsp;&nbsp;密&nbsp;&nbsp;码：</label>
+                        <input type="password" name="upassword" id="newpassword" placeholder="请输入新密码" onblur="checkUpassword()"><label id="newpasswordTip"></label><br><br>
+                        <label>确认密码：</label>
+                        <input type="password" id="newrelpassword" placeholder="请输入确认密码"><label id="newrelpasswordTip"></label><br><br>&emsp;&emsp;
+                        <button type="submit" style="background-color: orange;border-radius: 8px;width: 62px">修改</button>&emsp;&emsp;&emsp;&emsp;
+                        <button type="submit" style="background-color: orange;border-radius: 8px;width: 62px">重置</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer>
+    <div class="container">
+        Copyright &copy; 2017.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+        <a href="#" class="go-top fa fa-arrow-up hidden-xs hidden-ms"><span>go top</span></a>
+    </div>
+</footer>
+<script type="text/javascript" src="js/jquery.3.2.1.min.js"></script>
+<!--JS实现AJAX部分-->
+<script type="text/javascript">
+    //检查密码格式 6-8位
+    function checkUpassword() {
+        var psw = document.getElementById("newpassword").value;
+        if (psw.length < 9 && psw.length > 5) {
+            document.getElementById("newpasswordTip").innerText = "正确";
+            document.getElementById("newpasswordTip").className = "success";
+            checkRelupassword();
+            return true;
+        } else {
+            document.getElementById("newpasswordTip").innerText = "请输入6-8位密码";
+            document.getElementById("newpasswordTip").className = "error";
+            return false;
+        }
+    }
+    //判断新密码和确认密码是否一致
+    function checkRelupassword() {
+        var psw = document.getElementById("newpassword").value;
+        var relpsw = document.getElementById("newrelpassword").value;
+
+        if (psw == relpsw) {
+            document.getElementById("newrelpasswordTip").innerText = "正确";
+            document.getElementById("newrelpasswordTip").className = "success";
+            return true;
+        } else {
+            document.getElementById("newrelpasswordTip").innerText = "两次输入的密码不一致";
+            document.getElementById("newrelpasswordTip").className = "error";
+            return false;
+        }
+    }
+
+    //所有条件都满足了才可以跳转
+    function fromVali() {
+        if (checkUpassword() == true && checkRelupassword() == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+</script>
+<style type="text/css">
+    .success {
+        color: green;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .error {
+        color: red;
+        font-size: 12px;
+        font-weight: bold;
+    }
+</style>
+<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery-ui.js"></script>
+
+<script type="text/javascript" src="assets/js/jquery.parallax-1.1.3.js"></script>
+<script type="text/javascript" src="assets/js/jquery.localscroll-1.2.7-min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.scrollTo-1.4.2-min.js"></script>
+
+
+<script type="text/javascript" src="assets/js/collapse.js"></script>
+<script type="text/javascript" src="assets/js/scrollreveal.js"></script>
+<script type="text/javascript" src="assets/js/countUp.js"></script>
+<script type="text/javascript" src="assets/js/swiper.jquery.js"></script>
+
+<script type="text/javascript" src="assets/js/jquery.matchHeight.js"></script>
+<script type="text/javascript" src="assets/js/jquery.swipebox.js"></script>
+<script type="text/javascript" src="assets/js/masonry.pkgd.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.zoomslider.js"></script>
+<script src="assets/js/map-pink.js"></script>
+<script type="text/javascript" src="assets/js/scripts.js"></script>
+
+</body>
+</html>

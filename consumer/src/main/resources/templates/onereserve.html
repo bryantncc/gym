@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>用户发表评论</title>
+    <link href="/assets/css/bootstrap-grid.css" rel="stylesheet" />
+    <link href="/assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="/assets/css/zoomslider.css" rel="stylesheet" />
+    <link href="/assets/css/swiper.css" rel="stylesheet" />
+    <link href="/assets/css/swipebox.css" rel="stylesheet" />
+    <link href="/assets/css/aa.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/jquery-ui.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700%7CFira+Sans:400,500,600,700,800,900" rel="stylesheet" />
+    <script type="text/javascript" src="/assets/js/modernizr-2.6.2.min.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><span class="sr-only">Toggle navigation</span><span class="icon-bar top-bar"></span><span class="icon-bar middle-bar"></span><span class="icon-bar bottom-bar"></span></button>
+            <a class="logo" href="index.html"><img src="/assets/images/logo-pink.png" alt="StarGym" /></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <!-- Use <div id="search" class="show">for visible block -->
+            <div id="search">
+                <form>
+                    <div class="input-div">
+                        <input type="text" name="search" value="" placeholder="Search" />
+                    </div>
+                    <a href="#" class="search-icon fa fa-search"></a>
+                </form>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="gallery.html">课程</a></li>
+                <li><a href="cards.html">Cards</a></li>
+                <li><a href="coaches.html">教练</a></li>
+                <li><a href="coach_full.html">Coach Full Page</a></li>
+                <li><a href="contact.html">联系</a></li>
+                <li>
+                    你好！<span th:text="${session.user.uname}"></span>
+                    <p>
+                        <span><a  href="edtpwd.html">修改密码</a></span>
+                        <span><a  href="userreserve">我的预约</a></span>
+                        <span><a  href="userlogin.html">退出</a></span>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <style type="text/css">
+        ul li{
+            cursor:pointer;
+        }
+        ul li p{
+            display:none;
+        }
+        ul li:hover p{
+            display:block;
+            background-color:darkslategray;
+        }
+        ul li p span{
+            display:block;
+            margin:5px 0;
+            cursor:default;
+        }
+    </style>
+</nav>
+<section style="height: 460px" class="slider-full" data-zs-speed="12000" data-zs-interval="7000" data-zs-switchspeed="4000" data-zs-src="[&quot;/assets/images/_slider-1.jpg&quot;, &quot;/assets/images/_slider-2.jpg&quot;, &quot;/assets/images/_slider-3.jpg&quot;]">
+</section>
+<section class="coaches">
+    <div class="container">
+        <h3>发表 <span>评论</span></h3>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-ms-6">
+                <div class="item">
+                    <a href="#" class="photo"><img src="/assets/images/_coach-1.jpg" class="full-width" alt="Coach" /></a>
+                    <div class="descr">
+                        <a href="#" class="header"><span th:text="${view_reservation.tname}">Conaughey</span></a> Age:
+                        <strong>26</strong>
+                        <br /> Experience:
+                        <strong>8 years</strong>
+                        <br /> Specialization:
+                        <strong>Gym</strong>
+                    </div>
+                    <div class="bottom">
+                        <a href="#" class="social-twitter fa fa-twitter"></a>
+                        <a href="#" class="social-fb fa fa-facebook"></a>
+                        <a href="#" class="social-inst fa fa-instagram"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-16 col-md-9 col-sm-3 col-ms-9">
+                <div class="item">
+
+                    <div class="descr" style="text-align: left;margin-left: 260px">
+                        <br>
+                        <a href="#" class="header" style="margin-left: 60px">填写 <span>评论</span></a><br>
+                        <strong>预&emsp;约&emsp;号：</strong><input type="text" id="reid" th:value="${view_reservation.reid}" >
+                        <br /><br>
+                        <strong>课&emsp;程&emsp;名：</strong><input type="text" id="cname" th:value="${view_reservation.cname}" >
+                        <br /><br>
+                        <strong>上&nbsp;课&nbsp;&nbsp;时&nbsp;间：</strong><input type="text" id="ctime" th:value="${view_reservation.ctime}" >
+                        <br /><br>
+                        <strong>内&emsp;&emsp;容：</strong><br><textarea id="content" style="width:300px; height:100px;"></textarea><br><br>
+                    </div>
+                    <div class="bottom">
+                        <button id="dybtnaa" style="background-color: crimson;width: 90px;border-radius:20px" >发表</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        Copyright &copy; 2017.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+        <a href="#">Terms of use</a>
+        <a href="#" class="go-top fa fa-arrow-up hidden-xs hidden-ms"><span>go top</span></a>
+    </div>
+</footer>
+<script type="text/javascript" src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/jquery-ui.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.parallax-1.1.3.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.localscroll-1.2.7-min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.scrollTo-1.4.2-min.js"></script>
+<script type="text/javascript" src="/assets/js/collapse.js"></script>
+<script type="text/javascript" src="/assets/js/scrollreveal.js"></script>
+<script type="text/javascript" src="/assets/js/countUp.js"></script>
+<script type="text/javascript" src="/assets/js/swiper.jquery.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.matchHeight.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.swipebox.js"></script>
+<script type="text/javascript" src="/assets/js/masonry.pkgd.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.zoomslider.js"></script>
+<script src="/assets/js/map-pink.js"></script>
+<script type="text/javascript" src="/assets/js/scripts.js"></script>
+</body>
+<!--使用jquery框架-->
+<script type="text/javascript" src="/js/jquery.3.2.1.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        //发表评论
+        $("#dybtnaa").click(function () {
+            var reid = $("#reid").val();
+            var content = $("#content").val();
+//          把这个html存入数据库中即可
+//          使用jquery的ajax对象获取数据
+            $.ajax({
+                type: "post",
+                url: "http://localhost:8070/comment",
+                data: {
+                    "reid": reid,
+                    "content": content
+                },
+                dataType: "text",
+//              timeout: 5000,
+                success: function (data) {
+                    alert("发表成功！");
+                    window.location.href = "http://localhost:8070/userreserve"
+                },
+                error: function (data) {
+                    alert("发表失败！");
+                }
+            });
+        });
+    });
+</script>
+
+</html>

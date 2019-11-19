@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>教练信息</title>
+    <!--meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Trim-Fit Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+         Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"/>
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!--//meta tags ends here-->
+    <!--booststrap-->
+    <link href="../css/bootstrap.min1.css" rel="stylesheet" type="text/css" media="all">
+    <!--//booststrap end-->
+    <!-- font-awesome icons -->
+    <link href="../css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
+    <!-- //font-awesome icons -->
+    <!--stylesheets-->
+    <link href="../css/style1.css" rel='stylesheet' type='text/css' media="all">
+    <!--//stylesheets-->
+    <link href="//fonts.googleapis.com/css?family=Arimo:400,400i,700,700i" rel="stylesheet">
+
+    <link rel="stylesheet" href="../cssjs/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../cssjs/bootstrap-theme.min.css"/>
+    <script src="../cssjs/jquery.min.js"></script>
+    <script type="text/javascript" src="../cssjs/bootstrap.min.js"></script>
+
+    <!--Ajax-->
+    <script type="text/javascript">
+        $(function () {
+
+            $(document).on("click", "#submit", function () {
+                var tid = $(":input[name='tid']").val();
+                var tname = $(":input[name='tname']").val();
+                var tphone = $(":input[name='tphone']").val();
+                var tpassword = $(":input[name='tpassword']").val();
+                $.ajax({
+                    type: "put",
+                    url: "../udtTrainer",//更新教练信息
+                    data: {
+                        //这边的字段和Java的变量对应，不是跟数据库的字段对应
+                        "tid": tid,
+                        "tname": tname,
+                        "tphone": tphone,
+                        "tpassword": tpassword
+                    },
+                    success: function (data) {
+
+                        alert("修改成功");
+                        window.location.reload();
+                    }
+
+                })
+            })
+        })
+    </script>
+
+</head>
+<body>
+<!--headder-->
+<div class="header-outs" id="home">
+    <div class="header-w3layouts">
+        <!--//navigation section -->
+        <div class="headr-title">
+            <div class="hedder-up">
+                <h1><a class="navbar-brand" href="index.html">教练个人中心</a></h1>
+            </div>
+            <div class="header-call">
+                <span class="fas fa-phone-volume brand-icon"></span>
+                <h4>欢迎回来！<span th:text="${session.trainer.tname}"></span></h4>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse  nav-fill " id="navbarSupportedContent">
+                <ul class="navbar-nav nav-pills nav-fill">
+                    <li class="nav-item">
+                        <a href="service.html" class="nav-link "></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="service.html" class="nav-link "></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="service.html" class="nav-link "></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="trainermain.html">首页<span class="sr-only">(current)</span></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="service.html" class="nav-link ">我的学员</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="gallery.html" class="nav-link">我的课程</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a th:href="|tData/${session.trainer.tid}|" class="nav-link">我的信息</a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+        <!--//navigation section -->
+    </div>
+</div>
+<!-- //Navigation-->
+<!--//headder-->
+<!-- banner -->
+<div class="inner_page-banner two-img">
+</div>
+<!--//banner -->
+<!-- short -->
+<div class="using-border py-3">
+    <div class="inner_breadcrumb  ml-4">
+        <ul class="short_ls">
+            <li>
+                <a th:href="trainermain.html">首页</a>
+                <span>/ /</span>
+            </li>
+            <li>教练个人中心</li>
+        </ul>
+    </div>
+</div>
+<!-- //short-->
+<!--contact -->
+
+<section class="contact py-lg-4 py-md-3 py-sm-3 py-3">
+    <div class="container py-lg-5 py-md-4 py-sm-4 py-3">
+        <h3 class="title text-center mb-lg-5 mb-md-4 mb-sm-4 mb-3">教练信息</h3>
+        <div class="agile-info-para">
+            <div class="row contactright pb-lg-5 pb-md-4 pb-sm-3 pb-3">
+                <div class="col-lg-114 col-md-114 text-center contact-address-grid">
+                    <div class="footer_grid_left">
+                        <div class="contact_footer_grid_left text-center mb-3" style="width: 600px;height: 200px;">
+                            <h5 style="text-align: left;margin-left: 200px">
+                                <p><br></p>
+                                教练名:<span th:text="${trainer.tname}"></span>
+                                <br><br>
+                                手机号:<span th:text="${trainer.tphone}"></span><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <br><br>
+                                简介信息:<span th:text="${trainer.tintroduce}"></span><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <!--<button class="fr " style="background-color: white; color: black;" data-toggle="modal"
+                                        data-target="#edtmodel">修改信息
+                                </button>-->
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 修改地址--模态框（Modal22） -->
+            <!--<div class="modal fade" id="edtmodel" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel" style="margin-left: 200px;margin-top: 10px">
+                                修改信息</h4>
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">&times;
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            &lt;!&ndash;更新教练信息&ndash;&gt;
+                            <div class="row contact-wls-detail">
+                                <div class="col-lg-6 contact-form pb-lg-3 pb-2" style="margin-left: 130px">
+                                    <form action="#" method="post">
+                                        <div class="row agile-wls-contact-mid mb-lg-4 mb-3">
+                                            <div class="col-lg-16 col-md-16 form-group contact-forms">
+                                                <input type="hidden" name="_method" value="put">
+                                                <input type="hidden" name="tid" th:value="${trainer.tid}"/><br>
+                                                <b style="font-size: 16px">教练名:</b>
+                                                <input type="text" name="tname" th:value="${trainer.tname}"
+                                                       class="form-control" style="float: right"/>
+                                            </div>
+                                            <div class="col-lg-16 col-md-16 form-group contact-forms">
+                                                <b style="font-size: 16px">手机号:</b>
+                                                <input type="text" class="form-control" name="tphone"
+                                                       th:value="${trainer.tphone}" style="float: right"/>
+                                                <input type="text" name="tpassword" th:value="${trainer.tpassword}"
+                                                       hidden="hidden"/>
+                                            </div>
+                                        </div>
+                                        <div class="bc">
+                                            <button type="button" id="submit" class="btn sent-butnn btn-lg"
+                                                    style="width: auto;margin-left: 80px">保存
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>-->
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+</section>
+<!--//contact  -->
+<footer style="background-color: grey">
+    <p>©2018 Trim-Fit. All Rights Reserved | Design by <a href="http://www.W3Layouts.com" target="_blank">W3Layouts</a>
+    </p>
+</footer>
+<!-- //Footer -->
+<!--js working-->
+<script src='js/jquery-2.2.3.min.js'></script>
+<!--//js working-->
+<!-- start-smoth-scrolling -->
+<script src="js/move-top.js"></script>
+<script src="js/easing.js"></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $(".scroll").click(function (event) {
+            event.preventDefault();
+            $('html,body').animate({
+                scrollTop: $(this.hash).offset().top
+            }, 900);
+        });
+    });
+</script>
+<!-- start-smoth-scrolling -->
+<!-- here stars scrolling icon -->
+<script>
+    $(document).ready(function () {
+
+        var defaults = {
+            containerID: 'toTop', // fading element id
+            containerHoverID: 'toTopHover', // fading element hover id
+            scrollSpeed: 1200,
+            easingType: 'linear'
+        };
+
+
+        $().UItoTop({
+            easingType: 'easeOutQuart'
+        });
+
+    });
+</script>
+<!-- //here ends scrolling icon -->
+<!--bootstrap working-->
+<script src="js/bootstrap.min.js"></script>
+<!-- //bootstrap working-->
+</body>
+</html>

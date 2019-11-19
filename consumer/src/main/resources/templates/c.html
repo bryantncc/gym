@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>课程管理页面</title>
+</head>
+<body>
+课程管理页面<br>
+一进来是一周课程详细<br>
+<a href="allc">查看一周课程</a>
+
+<table  >
+    <tr>
+        <td >课程表</td>
+    </tr>
+    <tr>
+        <td>序号</td>
+        <td>课程</td>
+        <td>时间</td>
+        <td>教练</td>
+        <td>教室</td>
+        <td>余量</td>
+        <td>操作</td>
+    </tr>
+
+    <tr th:each="detail:${iPage.records}">
+        <td th:text="${detail.did}"></td>
+        <td th:text="${detail.cname}"></td>
+        <td th:text="${detail.ctime}"></td>
+        <td th:text="${detail.tname}"></td>
+        <td th:text="${detail.rname}"></td>
+        <td th:text="${detail.dnumber}"></td>
+
+
+        <td >
+         <a href="edit.html"th:href="@{|/edtdetail?did=${detail.did}|}" >
+            修改
+        </a>
+
+        </td>
+    </tr>
+
+
+</table>
+
+<div>
+    <a href="allv?page=1&size=6" class="btn btn-default">首页</a>
+    <span th:if="${counts>1}">
+						<a th:href="@{|/allv?page=${counts-1}&size=6|}" class="btn btn-default">上一页</a>
+						</span>
+    <span th:if="${counts<pages}">
+						<a th:href="@{|/allv?page=${counts+1}&size=6|}" class="btn btn-default">下一页</a>
+						</span>
+
+    <a th:href="@{|/allv?page=${pages}&size=6|}"class="btn btn-default">末页</a>
+
+</div><br>
+
+<div>
+
+</table><br>
+
+
+    <a href="addc.html">新增课程</a>
+<table  >
+    <tr>
+        <td >课程信息</td>
+    </tr>
+    <tr>
+        <td>课程编号</td>
+        <td>课程名称</td>
+        <td>课程简介</td>
+        <td>操作</td>
+    </tr>
+    <tr th:each="course:${clist}">
+        <td th:text="${course.cid}"></td>
+        <td th:text="${course.cname}"></td>
+        <td th:text="${course.cmain}"></td>
+        <td >
+            <a href="delc"th:href="@{|/delc?cid=${course.cid}|}" >
+                删除
+            </a>
+        <td >
+    </tr>
+
+</table><br>
+<table>
+    <tr>
+        <td >教室信息</td>
+    </tr>
+    <tr>
+        <td>教室编号</td>
+        <td>教室名称</td>
+    </tr>
+    <tr th:each="room:${rrlist}">
+        <td th:text="${room.rid}"></td>
+        <td th:text="${room.rname}"></td>
+    </tr>
+
+
+</table>
+
+
+</div>
+</body>
+</html>

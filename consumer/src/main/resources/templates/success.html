@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>success</title>
+</head>
+<body>
+<div>
+    <span type="hidden" th:text="${msg}" id="msg" style="color: white"></span>
+    <span type="hidden" th:text="${url}" id="url" style="color: white"></span>
+</div>
+</body>
+<script src="js/jquery.3.2.1.min.js"></script>
+<script type="text/javascript">
+    var msg = $("#msg").text();
+    var url = $("#url").text();
+    alert(msg);
+    //回退
+    window.location.href=url;
+
+</script>
+
+</html>

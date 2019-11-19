@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>fail</title>
+</head>
+<body>
+<div>
+    <span type="hidden" th:text="${msg}" id="msg" style="color: white"></span>
+</div>
+</body>
+<script src="js/jquery.3.2.1.min.js"></script>
+<script type="text/javascript">
+    var msg = $("#msg").text();
+    alert(msg);
+    //回退
+    window.history.back();
+
+</script>
+
+</html>

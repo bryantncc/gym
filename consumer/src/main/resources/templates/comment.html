@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>显示所有评论</title>
+</head>
+<body>
+
+<table  >
+    <tr>
+        <td >评论表</td>
+    </tr>
+    <tr>
+        <td>评论编号</td>
+        <td>预约编号</td>
+        <td>学员评论</td>
+        <td>评论时间</td>
+    </tr>
+
+    <tr th:each="comment:${iPage.records}">
+        <td th:text="${comment.id}"></td>
+        <td th:text="${comment.reid}"></td>
+        <td th:text="${comment.content}"></td>
+        <td th:text="${comment.createtime}"></td>
+
+
+
+    </tr>
+
+
+</table>
+
+<div>
+    <a href="allp?page=1&size=6" class="btn btn-default">首页</a>
+    <span th:if="${counts>1}">
+						<a th:href="@{|/allp?page=${counts-1}&size=6|}" class="btn btn-default">上一页</a>
+						</span>
+    <span th:if="${counts<pages}">
+						<a th:href="@{|/allp?page=${counts+1}&size=6|}" class="btn btn-default">下一页</a>
+						</span>
+
+    <a th:href="@{|/allp?page=${pages}&size=6|}"class="btn btn-default">末页</a>
+
+</div><br>
+</body>
+</html>

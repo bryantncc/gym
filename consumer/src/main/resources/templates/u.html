@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>用户管理</title>
+    <!-- Bootstrap Styles-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link href="assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href='http://fonts.useso.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-default top-navbar" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">健身房后台管理</a>
+        </div>
+        <ul class="nav navbar-top-links navbar-right">
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li class="divider"></li>
+                    <li><a th:href="aindex.html"><i class="fa fa-sign-out fa-fw"></i> 退出</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+    </nav>
+    <!--/. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+
+                <li>
+                    <a class="active-menu" th:href="home"><i class="fa fa-dashboard"></i> 教练管理</a>
+                </li>
+                <li>
+                    <a th:href="allu"><i class="fa fa-desktop"></i>用户管理</a>
+                </li>
+                <li>
+                    <a th:href="allt"><i class="fa fa-sitemap"></i>教练管理</a>
+                </li>
+                <li>
+                    <a th:href="allv"><i class="fa fa-table"></i>课程管理<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="#">Second Level Link</a>
+                        </li>
+                        <li>
+                            <a href="#">Second Level Link</a>
+                        </li>
+                        <li>
+                            <a href="#">Second Level Link<span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li>
+                                    <a href="#">Third Level Link</a>
+                                </li>
+                                <li>
+                                    <a href="#">Third Level Link</a>
+                                </li>
+                                <li>
+                                    <a href="#">Third Level Link</a>
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a th:href="allp"><i class="fa fa-fw fa-file"></i>评价管理</a>
+                </li>
+            </ul>
+
+        </div>
+
+    </nav>
+    <!-- /. NAV SIDE  -->
+    <div id="page-wrapper">
+        <div id="page-inner">
+            <!--<button class="btn btn-primary" data-loading-text="Loading..."
+                    type="button"><a href="allu">查看所有用户</a></button>-->
+
+            <button style="margin-left: 60px" class="btn btn-primary" data-loading-text="Loading..."
+                    type="button"><a href="addu.html">新增</a></button>
+            <table >
+                <tr>
+                    <th>用户编号</th>
+                    <th>姓名</th>
+                    <th>手机号码</th>
+                    <th>删除</th>
+                    <th>编辑</th>
+                </tr>
+                <tr th:each="user:${listu}">
+                    <td th:text="${user.uid}"></td>
+                    <td th:text="${user.uname}"></td>
+                    <td th:text="${user.uphone}"></td>
+                    <td >
+                        <button class="btn btn-primary" data-loading-text="Loading..."
+                                type="button"><a href="delt"th:href="@{|/delu?uid=${user.uid}|}" >
+                            删除
+                        </a></button>
+                    <td >
+                        <button class="btn btn-primary" data-loading-text="Loading..."
+                                type="button"><a href="edit.html"th:href="@{|/edu?uid=${user.uid}|}" >
+                            修改
+                        </a></button>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    button a {
+        color: white;
+    }
+    table {
+        border-collapse: collapse;
+        font-family: Futura, Arial, sans-serif;
+        font-size: 20px;
+        margin-top: 20px;
+        margin-left: 60px;
+        width: 900px;
+    }
+    caption {
+        font-size: larger;
+
+        margin: 1em auto;
+    }
+    th,td {
+        padding: .85em;
+    }
+    th {
+        background: grey 0 0;
+        color: #fff;
+    }
+    tbody tr:nth-child(odd) {
+        background: #ccc;
+    }
+    th:first-child {
+        border-radius: 9px 0 0 0;
+    }
+    th:last-child {
+        border-radius: 0 9px 0 0;
+    }
+    tr:last-child td:first-child {
+        border-radius: 0 0 0 9px;
+    }
+    tr:last-child td:last-child {
+        border-radius: 0 0 9px 0;
+    }
+</style>
+<!-- jQuery Js -->
+<script src="assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script src="assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script src="assets/js/jquery.metisMenu.js"></script>
+<!-- Morris Chart Js -->
+<script src="assets/js/morris/raphael-2.1.0.min.js"></script>
+<script src="assets/js/morris/morris.js"></script>
+<!-- Custom Js -->
+<script src="assets/js/custom-scripts.js"></script>
+
+</body>
+</html>

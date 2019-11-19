@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>我的预约详情</title>
+    <link href="assets/css/bootstrap-grid.css" rel="stylesheet">
+    <link href="assets/css/font-awesome.css" rel="stylesheet">
+    <link href="assets/css/zoomslider.css" rel="stylesheet">
+    <link href="assets/css/swiper.css" rel="stylesheet">
+    <link href="assets/css/swipebox.css" rel="stylesheet">
+    <link href="assets/css/style-pink.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/jquery-ui.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700%7CFira+Sans:400,500,600,700,800,900" rel="stylesheet">
+
+    <script type="text/javascript" src="assets/js/modernizr-2.6.2.min.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-fixed-top dark">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar top-bar"></span>
+                <span class="icon-bar middle-bar"></span>
+                <span class="icon-bar bottom-bar"></span>
+            </button>
+            <a class="logo" href="index.html"><img src="assets/images/logo-pink.png" alt="StarGym"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <!-- Use <div id="search" class="show"> for visible block -->
+            <div id="search">
+                <form>
+                    <div class="input-div"><input type="text" name="search" value="" placeholder="Search"></div>
+                    <a href="#" class="search-icon fa fa-search"></a>
+                </form>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="gallery.html">课程</a></li>
+                <li><a href="cards.html">Cards</a></li>
+                <li><a href="coaches.html">教练</a></li>
+                <li><a href="coach_full.html">Coach Full Page</a></li>
+                <li><a href="contact.html">联系</a></li>
+                <li>
+                    你好！<span th:text="${session.user.uname}"></span>
+                    <p>
+                        <span><a  href="edtpwd.html">修改密码</a></span>
+                        <span><a  href="userreserve">我的预约</a></span>
+                        <span><a  href="usercomment">我的评论</a></span>
+                        <span><a  href="userlogin.html">退出</a></span>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <style type="text/css">
+        ul li{
+            cursor:pointer;
+        }
+        ul li p{
+            display:none;
+        }
+        ul li:hover p{
+            display:block;
+            background-color:darkslategray;
+        }
+        ul li p span{
+            display:block;
+            margin:5px 0;
+            cursor:default;
+        }
+    </style>
+</nav>
+<header>
+    <div class="container">
+        <h1>查看 <span>我的预约</span></h1>
+        <ol class="bread">
+            <li>
+                <a href="index.html"><span>首页</span></a>
+            </li>
+            <li class="divider"><span>|</span></li>
+            <li>
+                <span>我的预约</span>
+            </li>
+        </ol>
+    </div>
+</header>
+<section class="cards" style="margin-top: -40px">
+    <div class="container" style="margin-left: 120px">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-ms-12">
+                <div class="item" style="background-color: #b1dfbb;">
+                    <table id="dyreservation"  >
+
+                        <tr  style="background-color: dimgray ;color: whitesmoke" >
+                            <td>预约号</td>
+                            <td>课程名</td>
+                            <td>上课时间</td>
+                            <td>教练名</td>
+                            <td>场地</td>
+                            <td>预约时间</td>
+                            <td>已约人数</td>
+                            <td>到场情况</td>
+                            <td width="116px"></td>
+                        </tr>
+                        <tr th:each="reservation : ${iPage.records}">
+                            <td th:text="${reservation.reid}"></td>
+                            <td th:text="${reservation.cname}"></td>
+                            <td th:text="${reservation.ctime}"></td>
+                            <td th:text="${reservation.tname}"></td>
+                            <td th:text="${reservation.rname}"></td>
+                            <td th:text="${reservation.rtime}"></td>
+                            <td th:text="30-${reservation.dnumber}"></td>
+                            <td th:text="${reservation.rstatus}"></td>
+                            <td>
+                                <form th:action="@{|/onereserve/${reservation.reid}|}" method="post">
+                                    <button type="submit" style="background-color: #67b168;border-radius: 6px" th:if="${reservation.rstatus=='已到'}">评论</button>
+                                </form>
+                        </tr>
+                    </table>
+                    <br><br>
+                    <p style="text-align: center">
+
+                        &nbsp;
+                        <a th:if="${iPage.current!=1}" th:href="@{'/userreserve?pageNum='+1+'&&'+'pageSize='+4}">首页</a >
+                        &nbsp;
+                        <a th:if="${iPage.current>1}" th:href="@{'/userreserve?pageNum='+${iPage.current-1}+'&&'+'pageSize='+6}">上一页</a >
+                        &nbsp;
+                        <a th:if="${iPage.current<iPage.pages}" th:href="@{'/userreserve?pageNum='+${iPage.current+1}+'&&'+'pageSize='+6}">下一页</a >
+                        &nbsp;
+                        <a th:if="${iPage.current!=iPage.pages}" th:href="@{'/userreserve?pageNum='+${iPage.pages}+'&&'+'pageSize='+6}">尾页</a >
+                        &emsp;
+                        第<span th:text="${iPage.current}"></span>页
+                        &nbsp;
+                        共<span th:text="${iPage.pages}"></span>页
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="js/jquery.3.2.1.min.js"></script>
+<!--JS实现AJAX部分-->
+<script type="text/javascript">
+    $(function () {
+        $("table tr td:nth-child(6)").each(function () {
+
+            $(this).text($(this).text().substring(0,19));
+
+        });
+    });
+</script>
+<style type="text/css">
+    table {
+        border-collapse: collapse;
+        font-family: Futura, Arial, sans-serif;
+        margin-left: 70px;
+        width: 1000px;
+    }
+    caption {
+        font-size: larger;
+        margin: 1em auto;
+    }
+    th,td {
+        padding: .65em;
+    }
+    tbody tr:nth-child(odd) {
+        background: #ccc;
+    }
+    tr:first-child td:first-child{
+        border-radius: 9px 0 0 0;
+    }
+    tr:first-child td:last-child{
+        border-radius: 0 9px 0 0;
+    }
+    tr:last-child td:first-child {
+        border-radius: 0 0 0 9px;
+    }
+    tr:last-child td:last-child {
+        border-radius: 0 0 9px 0;
+    }
+</style>
+<footer>
+    <div class="container">
+        Copyright &copy; 2017.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+        <a href="#" class="go-top fa fa-arrow-up hidden-xs hidden-ms"><span>go top</span></a>
+    </div>
+</footer>
+<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery-ui.js"></script>
+<script type="text/javascript" src="assets/js/jquery.parallax-1.1.3.js"></script>
+<script type="text/javascript" src="assets/js/jquery.localscroll-1.2.7-min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.scrollTo-1.4.2-min.js"></script>
+<script type="text/javascript" src="assets/js/collapse.js"></script>
+<script type="text/javascript" src="assets/js/scrollreveal.js"></script>
+<script type="text/javascript" src="assets/js/countUp.js"></script>
+<script type="text/javascript" src="assets/js/swiper.jquery.js"></script>
+<script type="text/javascript" src="assets/js/jquery.matchHeight.js"></script>
+<script type="text/javascript" src="assets/js/jquery.swipebox.js"></script>
+<script type="text/javascript" src="assets/js/masonry.pkgd.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.zoomslider.js"></script>
+<script src="assets/js/map-pink.js"></script>
+<script type="text/javascript" src="assets/js/scripts.js"></script>
+
+</body>
+<script type="text/javascript" src="js/jquery.3.2.1.min.js"></script>
+<!--JS实现AJAX部分-->
+<script type="text/javascript">
+    $(function () {
+        $("table tr td:nth-child(5)").each(function () {
+
+            $(this).text($(this).text().substring(0,19));
+
+        })
+    });
+
+</script>
+</html>

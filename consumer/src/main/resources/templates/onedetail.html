@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户查看课程</title>
+</head>
+<body>
+<table border="1px solid">
+    <tr>
+        <td colspan="7">课程表</td>
+    </tr>
+    <tr>
+        <td>安排编号</td>
+        <td>课程名称</td>
+        <td>上课时间</td>
+        <td>教练名称</td>
+        <td>场地</td>
+        <td>预约剩余数量</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr th:each="detail : ${list}">
+        <td th:text="${detail.did}"></td>
+        <td th:text="${detail.cname}"></td>
+        <td th:text="${detail.ctime}"></td>
+        <td th:text="${detail.tname}"></td>
+        <td th:text="${detail.rname}"></td>
+        <td th:text="${detail.dnumber}"></td>
+        <td>
+            <button>预约</button>
+        </td>
+    </tr>
+</table>
+<!--使用jquery框架-->
+<script type="text/javascript" src="js/jquery.3.2.1.min.js"></script>
+<!--JS实现AJAX部分-->
+<script type="text/javascript">
+    $(function () {
+        $("table tr td:nth-child(7)").click(function () { //HTML中id为get的HTML标签的点击动作
+           //添加预约记录
+            var did = $(this).parent("tr").find("td").eq(0).text();
+            $.ajax({
+                type: "post", //请求方法，GET、POST、PUT、DELETE在这里设置
+                url: "/reservation",    //请求的URL地址
+                data: {
+                    "did" : did
+                },
+                dataType: "json",    //返回的数据格式：json/xml/html/script/jsonp/text
+                //timeout: 5000,    //超时时间
+                success: function(data){
+                    alert("预约失败！请重新操作！");
+
+                },
+                error: function (data) {
+                    alert("预约成功！即将跳转至首页。。");
+                    window.location.href="index";
+                }
+            });
+
+            //课程可预约剩余数量-1
+            var cname = $(this).parent("tr").find("td").eq(1).text();
+            var dnumber = $(this).parent("tr").find("td").eq(5).text();
+            $.ajax({
+                type: "post", //请求方法，GET、POST、PUT、DELETE在这里设置
+                url: "/reduceNum",    //请求的URL地址
+                data: {
+                    "did" : did,
+                    "dnumber" : dnumber
+                },
+                dataType: "json",    //返回的数据格式：json/xml/html/script/jsonp/text
+                //timeout: 5000,    //超时时间
+            });
+
+        });
+    });
+</script>
+</body>
+</html>
